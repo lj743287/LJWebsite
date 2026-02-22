@@ -1,0 +1,32 @@
+{
+  "version": "v2.0.0",
+  "seasonLabel": "English League One",
+  "updatedAt": "2026-02-22T00:00:00Z",
+  "source": "Local snapshot",
+  "rows": [
+    {"rank": 1, "teamName": "Birmingham City", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 2, "teamName": "Barnsley", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 3, "teamName": "Blackpool", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 4, "teamName": "Bolton Wanderers", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 5, "teamName": "Bristol Rovers", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 6, "teamName": "Burton Albion", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 7, "teamName": "Cambridge United", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 8, "teamName": "Crawley Town", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 9, "teamName": "Charlton Athletic", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 10, "teamName": "Exeter City", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 11, "teamName": "Huddersfield Town", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 12, "teamName": "Leyton Orient", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 13, "teamName": "Lincoln City", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 14, "teamName": "Mansfield Town", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 15, "teamName": "Northampton Town", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 16, "teamName": "Peterborough United", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 17, "teamName": "Reading", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 18, "teamName": "Rotherham United", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 19, "teamName": "Shrewsbury Town", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 20, "teamName": "Stevenage", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 21, "teamName": "Stockport County", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 22, "teamName": "Wigan Athletic", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 23, "teamName": "Wrexham", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0},
+    {"rank": 24, "teamName": "Wycombe Wanderers", "played": 0, "won": 0, "drawn": 0, "lost": 0, "goalDiff": 0, "points": 0}
+  ]
+}
