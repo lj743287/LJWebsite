@@ -1,5 +1,6 @@
-const APP_VERSION = 'v4.4.0';
-const MIN_EXPECTED_TEAMS = 20;
+const APP_VERSION = 'v4.6.0';
+const MIN_EXPECTED_TEAMS = 24;
+const SNAPSHOT_PATH = './data/league-one.json';
 
 const refreshButton = document.querySelector('#refreshButton');
 const statusEl = document.querySelector('#status');
@@ -130,17 +131,41 @@ async function fetchCurrentLiveStandings() {
   return pickBestSeason(successes);
 }
 
+async function fetchSnapshotStandings() {
+  const response = await fetch(`${SNAPSHOT_PATH}?t=${Date.now()}`, { cache: 'no-store' });
+  if (!response.ok) throw new Error(`Snapshot HTTP ${response.status}`);
+  const payload = await response.json();
+  const rows = Array.isArray(payload?.rows) ? payload.rows : [];
+  if (rows.length < MIN_EXPECTED_TEAMS) throw new Error(`Snapshot partial (${rows.length})`);
+  return {
+    source: payload?.source || 'snapshot',
+    seasonLabel: payload?.seasonLabel || 'English League One',
+    rows
+  };
+}
+
 async function refreshLiveTable() {
   setStatus('Loading full current League One table from live API…');
 
   try {
     const live = await fetchCurrentLiveStandings();
+    if ((live.rows?.length || 0) < MIN_EXPECTED_TEAMS) {
+      throw new Error(`Live table incomplete (${live.rows?.length || 0} teams)`);
+    }
     renderRows(live.rows);
     if (seasonInfoEl) seasonInfoEl.textContent = live.seasonLabel;
     setStatus(`Live API loaded (${live.source}) • ${live.rows.length} teams • ${new Date().toLocaleString()}`);
   } catch (error) {
     console.error('Live API fetch failed:', error);
-    setStatus('Live API unavailable or partial. Showing embedded fallback table.');
+    try {
+      const snapshot = await fetchSnapshotStandings();
+      renderRows(snapshot.rows);
+      if (seasonInfoEl) seasonInfoEl.textContent = snapshot.seasonLabel;
+      setStatus(`Live API unavailable, showing snapshot (${snapshot.source}) • ${snapshot.rows.length} teams.`);
+    } catch (snapshotError) {
+      console.error('Snapshot fallback failed:', snapshotError);
+      setStatus('Live and snapshot data unavailable right now.');
+    }
   }
 }
 

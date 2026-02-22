@@ -44,7 +44,7 @@ for (const candidate of candidates()) {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
     const table = payload?.table ?? [];
-    if (table.length < 20) throw new Error(`Partial table (${table.length})`);
+    if (table.length < 24) throw new Error(`Partial table (${table.length})`);
 
     selected = { season: candidate.season, table };
     if (candidate.season === seasonString(currentSeasonStartYear())) break;
@@ -56,7 +56,7 @@ for (const candidate of candidates()) {
 if (!selected) throw new Error(`No valid table found. ${errors.join(' | ')}`);
 
 const snapshot = {
-  version: 'v4.4.0',
+  version: 'v4.6.0',
   seasonLabel: `English League One • ${selected.season}`,
   updatedAt: new Date().toISOString(),
   source: 'TheSportsDB standings snapshot',
