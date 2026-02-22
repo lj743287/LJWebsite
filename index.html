@@ -11,18 +11,19 @@
       <header>
         <h1>UK League One Live Table</h1>
         <p class="subtitle">Current standings for the English League One division.</p>
+        <p id="appVersion" class="version">Version: loading…</p>
       </header>
 
       <section class="card">
         <div class="table-header">
-          <p id="seasonInfo">Loading season info…</p>
+          <p id="seasonInfo">English League One</p>
           <button id="refreshButton" type="button">Refresh</button>
         </div>
 
-        <div id="status" class="status">Loading latest standings…</div>
+        <div id="status" class="status">Loading table snapshot…</div>
 
         <div class="table-wrap" aria-live="polite">
-          <table id="standingsTable" hidden>
+          <table id="standingsTable">
             <thead>
               <tr>
                 <th>Pos</th>
