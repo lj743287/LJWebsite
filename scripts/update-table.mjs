@@ -1,41 +1,67 @@
 import fs from 'node:fs/promises';
 
-const API_URL = 'https://site.api.espn.com/apis/v2/sports/soccer/eng.3/standings';
 const outputPath = new URL('../data/league-one.json', import.meta.url);
 
-function mapRows(payload) {
-  const entries = payload?.children?.[0]?.standings?.entries ?? [];
-  return entries.map((entry, index) => {
-    const stats = entry.stats || [];
-    const get = (name) => stats.find((s) => s.name === name)?.value ?? '-';
-
-    return {
-      rank: get('rank') === '-' ? index + 1 : get('rank'),
-      teamName: entry.team?.displayName ?? 'Unknown Team',
-      played: get('gamesPlayed'),
-      won: get('wins'),
-      drawn: get('ties'),
-      lost: get('losses'),
-      goalDiff: get('pointDifferential'),
-      points: get('points')
-    };
-  });
+function currentSeasonStartYear() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  return month >= 7 ? year : year - 1;
 }
 
-const response = await fetch(API_URL);
-if (!response.ok) throw new Error(`Standings request failed: ${response.status}`);
-const payload = await response.json();
-const rows = mapRows(payload);
+function seasonString(startYear) {
+  return `${startYear}-${startYear + 1}`;
+}
 
-if (!rows.length) throw new Error('No rows returned from standings API');
+function candidates() {
+  const start = currentSeasonStartYear();
+  const seasons = [seasonString(start), seasonString(start - 1), seasonString(start + 1)];
+  return seasons.map((season) => ({
+    season,
+    url: `https://www.thesportsdb.com/api/v1/json/3/lookuptable.php?l=4396&s=${season}`
+  }));
+}
+
+function mapRows(table) {
+  return table.map((team, index) => ({
+    rank: Number(team.intRank) || index + 1,
+    teamName: team.strTeam ?? 'Unknown Team',
+    played: Number(team.intPlayed ?? 0),
+    won: Number(team.intWin ?? 0),
+    drawn: Number(team.intDraw ?? 0),
+    lost: Number(team.intLoss ?? 0),
+    goalDiff: Number(team.intGoalDifference ?? 0),
+    points: Number(team.intPoints ?? 0)
+  }));
+}
+
+let selected = null;
+const errors = [];
+
+for (const candidate of candidates()) {
+  try {
+    const response = await fetch(candidate.url);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const payload = await response.json();
+    const table = payload?.table ?? [];
+    if (table.length < 20) throw new Error(`Partial table (${table.length})`);
+
+    selected = { season: candidate.season, table };
+    if (candidate.season === seasonString(currentSeasonStartYear())) break;
+  } catch (error) {
+    errors.push(`${candidate.season}: ${error.message}`);
+  }
+}
+
+if (!selected) throw new Error(`No valid table found. ${errors.join(' | ')}`);
 
 const snapshot = {
-  version: 'v4.2.0',
-  seasonLabel: payload?.season?.displayName || payload?.name || 'English League One',
+  version: 'v4.4.0',
+  seasonLabel: `English League One • ${selected.season}`,
   updatedAt: new Date().toISOString(),
-  source: 'ESPN standings snapshot',
-  rows
+  source: 'TheSportsDB standings snapshot',
+  rows: mapRows(selected.table)
 };
 
 await fs.writeFile(outputPath, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8');
-console.log(`Wrote ${rows.length} rows to data/league-one.json`);
+console.log(`Wrote ${snapshot.rows.length} rows for ${selected.season}`);
