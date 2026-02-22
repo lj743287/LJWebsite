@@ -30,7 +30,7 @@ const rows = mapRows(payload);
 if (!rows.length) throw new Error('No rows returned from standings API');
 
 const snapshot = {
-  version: 'v3.0.0',
+  version: 'v4.0.0',
   seasonLabel: payload?.season?.displayName || payload?.name || 'English League One',
   updatedAt: new Date().toISOString(),
   source: 'ESPN standings snapshot',
